@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const Review = require("./reviews");
 const listingSchema = new Schema({
     title:{
         type:String,
@@ -11,7 +12,7 @@ const listingSchema = new Schema({
         url:{
         type:String,
         default:"https://cdn.pixabay.com/photo/2022/11/27/01/47/boat-7618814_1280.jpg",
-        Set:(v)=> v===""?"https://cdn.pixabay.com/photo/2022/11/27/01/47/boat-7618814_1280.jpg":v,
+        set :(v)=> v===""?"https://cdn.pixabay.com/photo/2022/11/27/01/47/boat-7618814_1280.jpg":v,
         }
     },
     price:Number,
@@ -27,6 +28,13 @@ const listingSchema = new Schema({
 
     
 
+});
+
+listingSchema.post("findOneAndDelete",async(listing)=>{
+    if(listing){
+        await Review.deleteMany({_id:{$in:listing.reviews}});
+    };
+    
 });
 
 const Listing = mongoose.model("Listing",listingSchema);

@@ -55,7 +55,7 @@ body{
 
 /* card styling */
 
-.card{
+.card-listing{
     border:none;
      margin:1rem; 
     object-fit: cover !important;
